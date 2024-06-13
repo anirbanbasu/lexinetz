@@ -2,7 +2,7 @@
 
 ## The non-containerised way
 
-Once you have installed the dependencies mentioned above in your Python virtual environment, to run the web app, execute `solara run src/solara.py`. It will automatically open a browser (unless you have a headless terminal) to the web interface. An alternative way of running the app is by executing the script `server.sh`, which will load the app using the [Starlette framework](https://www.starlette.io/) on the Asynchronous Server Gateway Interface (ASGI) server, [uvicorn](https://www.uvicorn.org/).
+Once you have installed the dependencies mentioned above in your Python virtual environment, to run the web app, execute `solara run src/webapp.py`. It will automatically open a browser (unless you have a headless terminal) to the web interface. An alternative way of running the app is by executing the script `server.sh`, which will load the app using the [Starlette framework](https://www.starlette.io/) on the Asynchronous Server Gateway Interface (ASGI) server, [uvicorn](https://www.uvicorn.org/).
 
 ## Containerised (Docker)
 

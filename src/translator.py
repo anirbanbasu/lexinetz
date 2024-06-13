@@ -16,6 +16,7 @@
 from icecream import ic
 from llama_index.core import PromptTemplate
 from llama_index.core.llms.llm import LLM
+from llama_index.core.base.llms.types import CompletionResponse
 
 import constants
 
@@ -37,7 +38,7 @@ class BaseTranslator:
         )
         self._llm.system_prompt = self._system_prompt
 
-    def translate(self, source_text: str) -> str:
+    def translate(self, source_text: str) -> CompletionResponse:
         translation_prompt = PromptTemplate(
             template=constants.PROMPT__TRANSLATE,
         ).format(
@@ -46,8 +47,7 @@ class BaseTranslator:
             source_text=source_text,
         )
         response = self._llm.complete(prompt=translation_prompt)
-        ic(response.text)
-        return response.text
+        return response
 
 
 class AgenticTranslator:

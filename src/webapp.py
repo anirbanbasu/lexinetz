@@ -119,6 +119,7 @@ def read_env_setting(
     )
 
 
+@task(prefer_threaded=True)
 def show_status_message(message: str, colour: str = "info", timeout: int = 4):
     """
     Update the Solara reactive variables, which can be used to display a status message on this page. The
@@ -213,6 +214,8 @@ def initialise_settings():
             constants.DEFAULT_VALUE__LLM_TEMPERATURE,
             type_cast=float,
         )
+
+        update_llm()
         rc_settings__initialised.value = True
 
 
@@ -225,9 +228,11 @@ def translate(callback_args: Any = None):
         target_language=rc_language__translate_to.value,
     )
     ic(
-        f"Translating zero-shot using {rc_global__llm.value.metadata.model_name} on {rc_settings__llm_provider.value}."
+        f"Translating using {rc_global__llm.value.metadata.model_name} on {rc_settings__llm_provider.value}."
     )
-    rc_text__translated.value = translator.translate(rc_text__translate_input.value)
+    translation_response = translator.translate(rc_text__translate_input.value)
+    ic(translation_response.text)
+    rc_text__translated.value = translation_response.text
 
 
 @solara.component

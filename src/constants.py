@@ -59,8 +59,8 @@ LLM_PROVIDERS__SUPPORTED = [
 
 PROMPT__SYSTEM = "You are an expert linguist, who specialises in translation from {source_language} to {target_language}."
 PROMPT__TRANSLATE = """This is a {source_language} to {target_language} translation task.
-Please provide the {target_language} translation for the following text.
-Do not provide any explanations or text apart from the translation.
+The text in the {source_language} may contain idiomatic expressions. You must output idiomatic equivalents for such expressions in the {target_language}.
+Please provide the {target_language} translation for the following text. Do not provide any explanations or any other text apart from the translation.
 {source_language}: {source_text}
 
 {target_language}:"""
