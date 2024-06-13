@@ -4,7 +4,7 @@ lexninetz is **an experimental project** that employs knowledge graphs and agent
 
 The name _lexinetz_ originates from the combination of two words: _λέξη_ (léxi) in Greek for _word_ in English, and _netz_ (e.g., das Netz) in German for _network_ in English.
 
-lexinetz also supports language model providers other than Open AI, including Ollama. lexinetz attempts to build on the ideas in `translation-agent` by introducing knowledge graphs for concept-based translation and agent-based reflection using competing agents. For more detail about reflection capabilities in artificial intelligence (which is something lexinetz does not have), refer to the [arXiv:2301.10823 [cs.AI]](https://arxiv.org/abs/2301.10823).
+lexinetz supports language model providers other than Open AI, including Ollama. lexinetz attempts to build on the ideas in `translation-agent` by introducing knowledge graphs for concept-based translation and agent-based reflection using competing agents. For more detail about reflection capabilities in artificial intelligence (which is something lexinetz does not have), refer to the paper by Lewis and Sarkadi: [arXiv:2301.10823 [cs.AI]](https://arxiv.org/abs/2301.10823).
 
 ## Documentation
 
