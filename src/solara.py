@@ -292,8 +292,6 @@ def Page():
     extern_style = (CWD / "css/styles.css").read_text(
         encoding=constants.CHAR_ENCODING__UTF8
     )
-    # Check if the external style sheet has any content.
-    ic(extern_style.strip() != constants.EMPTY_STRING)
     solara.Style(extern_style)
 
     with solara.Sidebar():
