@@ -1,6 +1,7 @@
 pytest
 solara
 llama-index-core
+llama-index-llms-llamafile
 llama-index-llms-ollama
 llama-index-llms-cohere
 llama-index-llms-openai

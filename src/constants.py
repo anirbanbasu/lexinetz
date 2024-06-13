@@ -27,7 +27,7 @@ PROJECT__NAME = "lexinetz"
 PROJECT__HEADLINE = "knowledge based language translation"
 PROJECT__GIT_URL = "https://github.com/anirbanbasu/lexinetz"
 
-SUPPORTED_LANGUAGES = [
+LANGUAGES__SUPPORTED = [
     "English",
     "Español",  # Spanish
     "Français",  # French
@@ -45,17 +45,25 @@ SUPPORTED_LANGUAGES = [
     "한국어",  # Korean
 ]
 
-LLM_PROVIDER_COHERE = "Cohere"
-LLM_PROVIDER_LLAMAFILE = "Llamafile"
-LLM_PROVIDER_OLLAMA = "Ollama"
-LLM_PROVIDER_OPENAI = "Open AI"
-SUPPORTED_LLM_PROVIDERS = [
-    LLM_PROVIDER_COHERE,
-    LLM_PROVIDER_LLAMAFILE,
-    LLM_PROVIDER_OLLAMA,
-    LLM_PROVIDER_OPENAI,
+LLM_PROVIDER__COHERE = "Cohere"
+LLM_PROVIDER__LLAMAFILE = "Llamafile"
+LLM_PROVIDER__OLLAMA = "Ollama"
+LLM_PROVIDER__OPENAI = "Open AI"
+LLM_PROVIDERS__SUPPORTED = [
+    LLM_PROVIDER__COHERE,
+    LLM_PROVIDER__LLAMAFILE,
+    LLM_PROVIDER__OLLAMA,
+    LLM_PROVIDER__OPENAI,
 ]
 
+
+PROMPT__SYSTEM = "You are an expert linguist, who specialises in translation from {source_language} to {target_language}."
+PROMPT__TRANSLATE = """This is a {source_language} to {target_language} translation task.
+Please provide the {target_language} translation for the following text.
+Do not provide any explanations or text apart from the translation.
+{source_language}: {source_text}
+
+{target_language}:"""
 
 ENV_KEY__LLM_PROVIDER = "LLM_PROVIDER"
 DEFAULT_VALUE__LLM_PROVIDER = "Ollama"
