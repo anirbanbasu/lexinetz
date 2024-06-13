@@ -1,0 +1,55 @@
+[book]
+authors = ["Anirban Basu"]
+language = "en"
+multilingual = false
+text-direction = "ltr"
+src = "src"
+title = "lexinetz"
+description = "lexninetz [the combination of two words: _λέξη_ (léxi) in Greek for _word_ in English, and _netz_ (e.g., das Netz) in German for _network_ in English] is an experimental project that employs knowledge graphs and agent-based reflection for natural language translation using multi-lingual language models."
+
+
+[rust]
+edition = "2018"
+
+[build]
+build-dir = "book"
+create-missing = false
+
+[preprocessor.index]
+
+[preprocessor.links]
+
+[output.html]
+default-theme = "rust"
+smart-punctuation = true
+mathjax-support = true
+copy-fonts = true
+copy-css = true
+copy-js = true
+additional-css = ["src/css/custom.css"]
+additional-js = []
+no-section-label = false
+git-repository-url = "https://github.com/anirbanbasu/lexinetz"
+git-repository-icon = "fa-github"
+site-url = "/"
+
+[output.html.fold]
+enable = false    # whether or not to enable section folding
+level = 0         # the depth to start folding
+
+
+[output.html.search]
+enable = true            # enables the search feature
+limit-results = 30       # maximum number of search results
+teaser-word-count = 30   # number of words used for a search result teaser
+use-boolean-and = true   # multiple search terms must all match
+boost-title = 2          # ranking boost factor for matches in headers
+boost-hierarchy = 1      # ranking boost factor for matches in page names
+boost-paragraph = 1      # ranking boost factor for matches in text
+expand = true            # partial words will match longer terms
+heading-split-level = 3  # link results to heading levels
+copy-js = false           # include Javascript code for search
+
+[output.html.print]
+enable = true    # include support for printable output
+page-break = true # insert page-break after each chapter
