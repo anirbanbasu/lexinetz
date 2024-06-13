@@ -191,14 +191,6 @@ def CustomLayout(children: Any = None):
         sidebar_open=False,
     ) as app_layout:
         with solara.AppBar():
-            # Display the status message as a toast, when avaiilable.
-            with rv.Snackbar(
-                timeout=0,
-                multi_line=True,
-                color=rc_status_message__colour.value,
-                v_model=rc_status_message__show.value,
-            ):
-                solara.Markdown(f"{rc_status_message.value}")
             with rv.Btn(
                 icon=True,
                 tag="a",
@@ -297,6 +289,15 @@ def Page():
     with solara.Sidebar():
         SettingsSidebar()
 
+    # Display the status message as a toast, when avaiilable.
+    with rv.Snackbar(
+        timeout=0,
+        multi_line=True,
+        color=rc_status_message__colour.value,
+        v_model=rc_status_message__show.value,
+    ):
+        solara.Markdown(f"{rc_status_message.value}")
+
     with solara.ColumnsResponsive(
         xlarge=[6, 6], medium=[6, 6], small=[12], default=[6, 6], wrap=True
     ):
@@ -330,7 +331,7 @@ def Page():
         on_click=lambda: show_status_message("Hello, world!"),
     )
 
-    with solara.ColumnsResponsive(xlarge=[12], medium=[12], default=[6, 6], wrap=True):
+    with solara.ColumnsResponsive(xlarge=[6, 6], medium=[12], default=[12], wrap=True):
         with solara.Column():
             rv.Textarea(
                 label="Text to translate",
