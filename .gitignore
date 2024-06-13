@@ -167,5 +167,5 @@ poetry.lock
 
 # mdBook
 docs/book
-./index.html
+index.html
 docs/index.html
