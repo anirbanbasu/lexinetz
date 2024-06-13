@@ -1,0 +1,9 @@
+pytest
+solara
+llama-index-core
+llama-index-llms-ollama
+llama-index-llms-cohere
+llama-index-llms-openai
+python-dotenv
+icecream
+markdown
