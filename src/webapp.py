@@ -413,7 +413,7 @@ def Page():
                     for lang in constants.LANGUAGES__SUPPORTED
                     if lang != rc_language__translate_from.value
                 ],
-                on_value=lambda _: rc_text__translated.set(constants.EMPTY_STRING),
+                on_value=lambda _: rc_text__translated.set([constants.EMPTY_STRING]),
             )
 
     solara.Button(
@@ -445,30 +445,21 @@ def Page():
             with rv.Carousel(
                 dark=False,
                 hide_delimiter_background=True,
-                hide_delimiters=True,
+                hide_delimiters=False,
                 cycle=False,
                 light=True,
                 show_arrows_on_hover=True,
                 # show_arrows=False,
             ):
-                for translation in rc_text__translated.value:
-                    with rv.CarouselItem():
+                for translation_metadata in rc_text__translated.value:
+                    with rv.CarouselItem(
+                        style_="height: 100%; width: 70%; margin-left: auto; margin-right: auto;",
+                    ):
                         with solara.Card(
-                            # title=rc_text__translated_label.value,
-                            elevation=0,
+                            subtitle=f"{len(translation_metadata)} characters",
+                            elevation=1,
                         ):
-                            # solara.Markdown(rc_text__translated.value)
-                            rv.Textarea(
-                                label=rc_text__translated_label.value,
-                                v_model=translation,
-                                outlined=True,
-                                readonly=True,
-                                rows=1,
-                                auto_grow=True,
-                                counter=True,
-                                shaped=True,
-                                disabled=translate.pending,
-                            )
+                            solara.Markdown(translation_metadata, style="scroll: auto;")
 
 
 routes = [

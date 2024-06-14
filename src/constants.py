@@ -65,46 +65,53 @@ LLM_PROVIDERS__SUPPORTED = [
 
 PROMPT__SYSTEM_SIMPLE = "You are an expert linguist, who specialises in translation from {source_language} to {target_language}."
 PROMPT__TRANSLATE_SIMPLE = (
-    "This is a {source_language} to {target_language} translation task."
-    "The text in the {source_language} may contain idiomatic expressions. You must output idiomatic equivalents for such expressions in the {target_language}."
-    "Please provide the {target_language} translation for the following text. Do not provide any explanations or any other text apart from the translation."
-    "{source_language}: {source_text}"
+    "This is a {source_language} to {target_language} translation task.\n"
+    "The text in the {source_language} may contain idiomatic expressions. You must output idiomatic equivalents for such expressions in the {target_language}.\n"
+    "Please provide the {target_language} translation for the following text. Do not provide any explanations or any other text apart from the translation.\n"
+    "{source_language}: {source_text}\n"
     "{target_language}:"
 )
 
 # Prompt template from https://github.com/run-llama/llama_index/blob/f17513961505c43391851b364fba0494ee329496/llama-index-core/llama_index/core/prompts/default_prompts.py#L314
 PROMPT__KG_EXTRACT = (
-    "Some text is provided below. Given the text, extract up to {max_knowledge_triplets} "
-    "knowledge triplets in the form of (subject, predicate, object). Avoid stopwords and idiomatic expressions.\n"
+    "Some source text is provided below. Given that text, extract up to {max_knowledge_triplets} "
+    "knowledge triplets in the form of [subject]->[predicate]->[object]. Avoid stopwords and idiomatic expressions.\n"
     "---------------------\n"
-    "Example:"
+    "Examples:"
     "Text: Alice is Bob's friend."
-    "Triplets:\n(Alice, is friend of, Bob)\n"
+    "Triplets:\n1. [Alice]->[is friend of]->[Bob]\n"
     "Text: Philz is a coffee shop founded in Berkeley in 1982.\n"
     "Triplets:\n"
-    "(Philz, is, coffee shop)\n"
-    "(Philz, founded in, Berkeley)\n"
-    "(Philz, founded in, 1982)\n"
+    "1. [Philz]->[is]->[coffee shop]\n"
+    "2. [Philz]->[founded in]->[Berkeley]\n"
+    "3. [Philz]->[founded in]->[1982]\n"
+    "Text: The iconic Mt. Fuji, at 3776m, is Japan's highest mountain.\n"
+    "Triplets:\n"
+    "1. [Mt. Fuji]->[is]->[iconic]\n"
+    "2. [Mt. Fuji]->[is in]->[Japan]\n"
+    "3. [Mt. Fuji]->[is]->[the highest mountain]\n"
+    "4. [The height of Mt. Fuji]->[is]->[3776m]\n"
     "---------------------\n"
     "Text: {source_text}\n"
     "Triplets:\n"
 )
 
 PROMPT__KG_ASSESS = (
-    "Some text is provided below in {source_language}. A translation of that text is also given below in {target_language}."
-    "In addition, extracted knowledge triplets from the text in {source_language} is also given below.\n"
+    "Some text is provided below in {source_language}, and its translation in {target_language}."
+    "Knowledge triplets representing concepts from the text in {source_language} are also given below.\n"
     "---------------------\n"
     "Source text in {source_language}\n"
-    "Text: {source_text}\n"
+    "{source_text}\n"
     "---------------------\n"
     "Translated text in {target_language}\n"
-    "Text: {translated_text}\n"
+    "{translated_text}\n"
     "---------------------\n"
-    "Knowledge triplets from text in {source_language}\n"
-    "Text: {knowledge_triplets}\n"
+    "Knowledge triplets from source text in {source_language}\n"
+    "{knowledge_triplets}\n"
     "---------------------\n"
-    "Given the knowledge triplets, assess the quality of the translation by checking if the translated text corresponds to the concepts in the knowledge triplets.\n"
-    "Please provide suggestions in {source_language} for improving the translation by generating the knowledge triplets in {target_language} that have been missed in the translated text provided above."
+    "Assess the quality of the translation to see if the translated text captures the concepts in the knowledge triplets. Avoid stopwords and idiomatic expressions.\n"
+    "Please provide suggestions in {source_language} to improve the translation by generating equivalent knowledge triplets in {target_language} if such triplets have been missed in the translated text provided above.\n"
+    "Please explain why you suggest those improvements.\n"
 )
 
 PROMPT__TRANSLATE_IMPROVE = (
@@ -120,7 +127,8 @@ PROMPT__TRANSLATE_IMPROVE = (
     "Improvement suggestions in {source_language} of the translation in {target_language}\n"
     "Text: {improvement_suggestions}\n"
     "---------------------\n"
-    "Using the improvement suggestions, provide the {target_language} translation for the text in {source_language}.\n"
+    "Using the improvement suggestions if present, provide the {target_language} translation for the text in {source_language}.\n"
+    "If there are no improvement suggestions, please output the translated text provided above, as is.\n"
     "Do not provide any explanations or any other text apart from the translation."
 )
 
