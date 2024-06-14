@@ -34,16 +34,17 @@ from translator import BaseTranslator
 
 # Declare reactive variables at the top level. Components using these variables
 # will be re-executed when their values change.
-rc_text__translate_input = solara.reactive(
-    "At the moment, nothing is translated. This is just a demo!"
+rc_text__translate_input: solara.Reactive[str] = solara.reactive(
+    constants.SAMPLE_TEXT__ENGLISH_NEWS_ARTICLE
 )
-rc_text__translated = solara.reactive("I know nothing!! This is just a demo!")
+rc_text__translated: solara.Reactive[str] = solara.reactive(constants.EMPTY_STRING)
 rc_language__translate_from: solara.Reactive[str] = solara.reactive(
     constants.EMPTY_STRING
 )
 rc_language__translate_to: solara.Reactive[str] = solara.reactive(
     constants.EMPTY_STRING
 )
+rc_text__translated_label: solara.Reactive[str] = solara.reactive("Translated text")
 
 rc_status_message: solara.Reactive[str] = solara.reactive(constants.EMPTY_STRING)
 rc_status_message__colour: solara.Reactive[str] = solara.reactive(
@@ -120,7 +121,9 @@ def read_env_setting(
 
 
 @task(prefer_threaded=True)
-def show_status_message(message: str, colour: str = "info", timeout: int = 4):
+def show_status_message(
+    message: str, colour: str = constants.COLOUR__INFO, timeout: int = 4
+):
     """
     Update the Solara reactive variables, which can be used to display a status message on this page. The
     message will be displayed in the form of a toast with a configurable timeout.
@@ -221,18 +224,35 @@ def initialise_settings():
 
 @task(prefer_threaded=True)
 def translate(callback_args: Any = None):
-    """Translate the text from one language to another."""
-    translator = BaseTranslator(
-        llm=rc_global__llm.value,
-        source_language=rc_language__translate_from.value,
-        target_language=rc_language__translate_to.value,
-    )
-    ic(
-        f"Translating using {rc_global__llm.value.metadata.model_name} on {rc_settings__llm_provider.value}."
-    )
-    translation_response = translator.translate(rc_text__translate_input.value)
-    ic(translation_response.text)
-    rc_text__translated.value = translation_response.text
+    """
+    Translate the text from one language to another.
+
+    Args:
+        callback_args (Any): The arguments passed to the callback function.
+    """
+    try:
+        show_status_message(
+            message=f"Translating using {rc_settings__llm_provider.value}: {rc_global__llm.value.metadata.model_name}.",
+            timeout=0,
+        )
+        translator = BaseTranslator(
+            llm=rc_global__llm.value,
+            source_language=rc_language__translate_from.value,
+            target_language=rc_language__translate_to.value,
+        )
+        translation_response = translator.translate(rc_text__translate_input.value)
+        rc_text__translated.value = translation_response.text
+        rc_text__translated_label.value = f"Translation using {rc_settings__llm_provider.value}: {rc_global__llm.value.metadata.model_name}"
+        ic(f"""{rc_text__translated_label.value}: \n{translation_response.text}""")
+        show_status_message(
+            message="Translation completed.", colour=constants.COLOUR__SUCCESS
+        )
+    except Exception as e:
+        ic(str(e))
+        show_status_message(
+            message=f"An error occurred while translating. {str(e)}",
+            colour=constants.COLOUR__ERROR,
+        )
 
 
 @solara.component
@@ -388,6 +408,7 @@ def Page():
                     for lang in constants.LANGUAGES__SUPPORTED
                     if lang != rc_language__translate_from.value
                 ],
+                on_value=lambda _: rc_text__translated.set(constants.EMPTY_STRING),
             )
 
     solara.Button(
@@ -398,8 +419,8 @@ def Page():
             or rc_language__translate_from.value == constants.EMPTY_STRING
             or rc_language__translate_to.value == constants.EMPTY_STRING
             or rc_language__translate_from.value == rc_language__translate_to.value
+            or translate.pending
         ),
-        disable=translate.pending,
         on_click=translate,
     )
 
@@ -411,22 +432,20 @@ def Page():
                 on_v_model=rc_text__translate_input.set,
                 outlined=True,
                 auto_grow=True,
-                rows=10,
+                rows=1,
                 counter=True,
+                disabled=translate.pending,
             )
         with solara.Column():
             rv.Textarea(
-                label=(
-                    f"Translated text using {rc_global__llm.value.metadata.model_name} on {rc_settings__llm_provider.value}"
-                    if rc_global__llm.value is not None
-                    else "Translated text"
-                ),
+                label=rc_text__translated_label.value,
                 v_model=rc_text__translated.value,
                 outlined=True,
                 readonly=True,
-                rows=10,
+                rows=1,
                 auto_grow=True,
                 counter=True,
+                disabled=translate.pending,
             )
 
 

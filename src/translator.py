@@ -13,7 +13,6 @@
 # limitations under the License.
 
 
-from icecream import ic
 from llama_index.core import PromptTemplate
 from llama_index.core.llms.llm import LLM
 from llama_index.core.base.llms.types import CompletionResponse
@@ -25,13 +24,12 @@ class BaseTranslator:
     def __init__(self, llm: LLM, source_language: str, target_language: str):
         self._llm = llm
         self.switch_translation_languages(source_language, target_language)
-        ic(self._llm)
 
     def switch_translation_languages(self, source_language: str, target_language: str):
         self._source_language = source_language
         self._target_language = target_language
         self._system_prompt = PromptTemplate(
-            template=constants.PROMPT__SYSTEM,
+            template=constants.PROMPT__SYSTEM_SIMPLE,
         ).format(
             source_language=self._source_language,
             target_language=self._target_language,
@@ -40,7 +38,7 @@ class BaseTranslator:
 
     def translate(self, source_text: str) -> CompletionResponse:
         translation_prompt = PromptTemplate(
-            template=constants.PROMPT__TRANSLATE,
+            template=constants.PROMPT__TRANSLATE_SIMPLE,
         ).format(
             source_language=self._source_language,
             target_language=self._target_language,
@@ -50,9 +48,6 @@ class BaseTranslator:
         return response
 
 
-class AgenticTranslator:
-    def __init__(self):
-        pass
-
-    def translate(self):
-        raise NotImplementedError
+class AgenticTranslator(BaseTranslator):
+    def __init__(self, llm: LLM, source_language: str, target_language: str):
+        super().__init__(llm, source_language, target_language)

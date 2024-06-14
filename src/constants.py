@@ -15,6 +15,11 @@
 EMPTY_STRING = ""
 SPACE_STRING = " "
 
+COLOUR__SUCCESS = "success"
+COLOUR__INFO = "info"
+COLOUR__ERROR = "error"
+COLOUR__WARNING = "warning"
+
 CHAR_ENCODING__UTF8 = "utf-8"
 CHAR_ENCODING__UTF16 = "utf-16"
 CHAR_ENCODING__UTF32 = "utf-32"
@@ -40,6 +45,7 @@ LANGUAGES__SUPPORTED = [
     "Norsk",  # Norwegian
     "Nederlands",  # Dutch
     "Polski",  # Polish
+    "বাংলা",  # Bengali
     "日本語",  # Japanese
     "中文",  # Mandarin
     "한국어",  # Korean
@@ -57,8 +63,8 @@ LLM_PROVIDERS__SUPPORTED = [
 ]
 
 
-PROMPT__SYSTEM = "You are an expert linguist, who specialises in translation from {source_language} to {target_language}."
-PROMPT__TRANSLATE = """This is a {source_language} to {target_language} translation task.
+PROMPT__SYSTEM_SIMPLE = "You are an expert linguist, who specialises in translation from {source_language} to {target_language}."
+PROMPT__TRANSLATE_SIMPLE = """This is a {source_language} to {target_language} translation task.
 The text in the {source_language} may contain idiomatic expressions. You must output idiomatic equivalents for such expressions in the {target_language}.
 Please provide the {target_language} translation for the following text. Do not provide any explanations or any other text apart from the translation.
 {source_language}: {source_text}
@@ -89,3 +95,8 @@ DEFAULT_VALUE__OPENAI_MODEL = "gpt-3.5-turbo-0125"
 
 ENV_KEY__LLM_TEMPERATURE = "LLM_TEMPERATURE"
 DEFAULT_VALUE__LLM_TEMPERATURE = "0.4"
+
+
+SAMPLE_TEXT__ENGLISH_PLACEHOLDER = "The quick brown fox jumps over the lazy dog."
+# News article from the BBC: https://www.bbc.com/news/articles/c9eem1dkx5vo
+SAMPLE_TEXT__ENGLISH_NEWS_ARTICLE = "New research is being carried out using artificial intelligence (AI) to analyse cosmic explosions. A type of AI known as machine learning will be used to make simulations of star explosions called supernovae, that release elements such as calcium and iron back into the universe. The research by the University of Warwick aims to help astronomers understand more about why and how supernovae take place. Lead author of the research Dr Mark Magee said while one model currently took up to 90 minutes to create, AI would enable thousands of supernovae models to be generated in less than a second. AI would also make research more accurate, helping to establish what models match real-life explosions, the university said. It added advancements in machine learning had made the research possible with future studies including a greater variety of explosions and supernovae.  'Machine learning approaches like this enable studies of larger numbers of supernovae, in greater detail, and with more consistency than previous approaches,' Dr Thomas Killestein said. (Source: https://www.bbc.com/news/articles/c9eem1dkx5vo)"
