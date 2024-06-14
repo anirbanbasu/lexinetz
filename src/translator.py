@@ -13,6 +13,8 @@
 # limitations under the License.
 
 
+from icecream import ic
+from typing import List
 from llama_index.core import PromptTemplate
 from llama_index.core.llms.llm import LLM
 from llama_index.core.base.llms.types import CompletionResponse
@@ -36,7 +38,7 @@ class BaseTranslator:
         )
         self._llm.system_prompt = self._system_prompt
 
-    def translate(self, source_text: str) -> CompletionResponse:
+    def translate(self, source_text: str) -> List[CompletionResponse]:
         translation_prompt = PromptTemplate(
             template=constants.PROMPT__TRANSLATE_SIMPLE,
         ).format(
@@ -45,9 +47,48 @@ class BaseTranslator:
             source_text=source_text,
         )
         response = self._llm.complete(prompt=translation_prompt)
-        return response
+        return [response]
 
 
 class AgenticTranslator(BaseTranslator):
     def __init__(self, llm: LLM, source_language: str, target_language: str):
         super().__init__(llm, source_language, target_language)
+
+    def reflective_translate(self, source_text: str) -> List[CompletionResponse]:
+        result = []
+        kg_extraction_prompt = PromptTemplate(
+            template=constants.PROMPT__KG_EXTRACT,
+        ).format(
+            max_knowledge_triplets=10,
+            target_language=self._target_language,
+            source_text=source_text,
+        )
+        kg_response = self._llm.complete(prompt=kg_extraction_prompt)
+        ic(kg_response.text)
+        result.append(kg_response)
+        initial_translation = self.translate(source_text)[0]
+        ic(initial_translation.text)
+        result.append(initial_translation)
+        kg_assess_prompt = PromptTemplate(template=constants.PROMPT__KG_ASSESS).format(
+            target_language=self._target_language,
+            source_language=self._source_language,
+            source_text=source_text,
+            translated_text=initial_translation.text,
+            knowledge_triplets=kg_response.text,
+        )
+        improvement_suggestions = self._llm.complete(prompt=kg_assess_prompt)
+        ic(improvement_suggestions.text)
+        result.append(improvement_suggestions)
+        kg_improved_translation_prompt = PromptTemplate(
+            template=constants.PROMPT__TRANSLATE_IMPROVE
+        ).format(
+            target_language=self._target_language,
+            source_language=self._source_language,
+            source_text=source_text,
+            translated_text=initial_translation.text,
+            improvement_suggestions=improvement_suggestions.text,
+        )
+        final_translation = self._llm.complete(prompt=kg_improved_translation_prompt)
+        result.append(final_translation)
+        ic(final_translation.text)
+        return result

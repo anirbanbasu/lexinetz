@@ -22,14 +22,14 @@ from llama_index.core.llms.llm import LLM
 from pathlib import Path
 from solara.lab import task  # , Task, use_task
 from solara.alias import rv
-from typing import Any
+from typing import Any, List
 
 import constants
 import os
 import solara
 import time
 
-from translator import BaseTranslator
+from translator import AgenticTranslator
 
 
 # Declare reactive variables at the top level. Components using these variables
@@ -37,7 +37,9 @@ from translator import BaseTranslator
 rc_text__translate_input: solara.Reactive[str] = solara.reactive(
     constants.SAMPLE_TEXT__ENGLISH_NEWS_ARTICLE
 )
-rc_text__translated: solara.Reactive[str] = solara.reactive(constants.EMPTY_STRING)
+rc_text__translated: solara.Reactive[List[str]] = solara.reactive(
+    [constants.EMPTY_STRING]
+)
 rc_language__translate_from: solara.Reactive[str] = solara.reactive(
     constants.EMPTY_STRING
 )
@@ -235,15 +237,17 @@ def translate(callback_args: Any = None):
             message=f"Translating using {rc_settings__llm_provider.value}: {rc_global__llm.value.metadata.model_name}.",
             timeout=0,
         )
-        translator = BaseTranslator(
+        translator = AgenticTranslator(
             llm=rc_global__llm.value,
             source_language=rc_language__translate_from.value,
             target_language=rc_language__translate_to.value,
         )
-        translation_response = translator.translate(rc_text__translate_input.value)
-        rc_text__translated.value = translation_response.text
+        # translation_response = translator.translate(rc_text__translate_input.value)
+        translation_response = translator.reflective_translate(
+            rc_text__translate_input.value
+        )
+        rc_text__translated.value = [response.text for response in translation_response]
         rc_text__translated_label.value = f"Translation using {rc_settings__llm_provider.value}: {rc_global__llm.value.metadata.model_name}"
-        ic(f"""{rc_text__translated_label.value}: \n{translation_response.text}""")
         show_status_message(
             message="Translation completed.", colour=constants.COLOUR__SUCCESS
         )
@@ -253,6 +257,7 @@ def translate(callback_args: Any = None):
             message=f"An error occurred while translating. {str(e)}",
             colour=constants.COLOUR__ERROR,
         )
+        raise e
 
 
 @solara.component
@@ -437,16 +442,33 @@ def Page():
                 disabled=translate.pending,
             )
         with solara.Column():
-            rv.Textarea(
-                label=rc_text__translated_label.value,
-                v_model=rc_text__translated.value,
-                outlined=True,
-                readonly=True,
-                rows=1,
-                auto_grow=True,
-                counter=True,
-                disabled=translate.pending,
-            )
+            with rv.Carousel(
+                dark=False,
+                hide_delimiter_background=True,
+                hide_delimiters=True,
+                cycle=False,
+                light=True,
+                show_arrows_on_hover=True,
+                # show_arrows=False,
+            ):
+                for translation in rc_text__translated.value:
+                    with rv.CarouselItem():
+                        with solara.Card(
+                            # title=rc_text__translated_label.value,
+                            elevation=0,
+                        ):
+                            # solara.Markdown(rc_text__translated.value)
+                            rv.Textarea(
+                                label=rc_text__translated_label.value,
+                                v_model=translation,
+                                outlined=True,
+                                readonly=True,
+                                rows=1,
+                                auto_grow=True,
+                                counter=True,
+                                shaped=True,
+                                disabled=translate.pending,
+                            )
 
 
 routes = [

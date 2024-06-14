@@ -64,12 +64,65 @@ LLM_PROVIDERS__SUPPORTED = [
 
 
 PROMPT__SYSTEM_SIMPLE = "You are an expert linguist, who specialises in translation from {source_language} to {target_language}."
-PROMPT__TRANSLATE_SIMPLE = """This is a {source_language} to {target_language} translation task.
-The text in the {source_language} may contain idiomatic expressions. You must output idiomatic equivalents for such expressions in the {target_language}.
-Please provide the {target_language} translation for the following text. Do not provide any explanations or any other text apart from the translation.
-{source_language}: {source_text}
+PROMPT__TRANSLATE_SIMPLE = (
+    "This is a {source_language} to {target_language} translation task."
+    "The text in the {source_language} may contain idiomatic expressions. You must output idiomatic equivalents for such expressions in the {target_language}."
+    "Please provide the {target_language} translation for the following text. Do not provide any explanations or any other text apart from the translation."
+    "{source_language}: {source_text}"
+    "{target_language}:"
+)
 
-{target_language}:"""
+# Prompt template from https://github.com/run-llama/llama_index/blob/f17513961505c43391851b364fba0494ee329496/llama-index-core/llama_index/core/prompts/default_prompts.py#L314
+PROMPT__KG_EXTRACT = (
+    "Some text is provided below. Given the text, extract up to {max_knowledge_triplets} "
+    "knowledge triplets in the form of (subject, predicate, object). Avoid stopwords and idiomatic expressions.\n"
+    "---------------------\n"
+    "Example:"
+    "Text: Alice is Bob's friend."
+    "Triplets:\n(Alice, is friend of, Bob)\n"
+    "Text: Philz is a coffee shop founded in Berkeley in 1982.\n"
+    "Triplets:\n"
+    "(Philz, is, coffee shop)\n"
+    "(Philz, founded in, Berkeley)\n"
+    "(Philz, founded in, 1982)\n"
+    "---------------------\n"
+    "Text: {source_text}\n"
+    "Triplets:\n"
+)
+
+PROMPT__KG_ASSESS = (
+    "Some text is provided below in {source_language}. A translation of that text is also given below in {target_language}."
+    "In addition, extracted knowledge triplets from the text in {source_language} is also given below.\n"
+    "---------------------\n"
+    "Source text in {source_language}\n"
+    "Text: {source_text}\n"
+    "---------------------\n"
+    "Translated text in {target_language}\n"
+    "Text: {translated_text}\n"
+    "---------------------\n"
+    "Knowledge triplets from text in {source_language}\n"
+    "Text: {knowledge_triplets}\n"
+    "---------------------\n"
+    "Given the knowledge triplets, assess the quality of the translation by checking if the translated text corresponds to the concepts in the knowledge triplets.\n"
+    "Please provide suggestions in {source_language} for improving the translation by generating the knowledge triplets in {target_language} that have been missed in the translated text provided above."
+)
+
+PROMPT__TRANSLATE_IMPROVE = (
+    "Some text is provided below in {source_language}. A translation of that text is also given below in {target_language}."
+    "In addition, some suggestion is given in {source_language} below to improve the translated text.\n"
+    "---------------------\n"
+    "Source text in {source_language}\n"
+    "Text: {source_text}\n"
+    "---------------------\n"
+    "Translated text in {target_language}\n"
+    "Text: {translated_text}\n"
+    "---------------------\n"
+    "Improvement suggestions in {source_language} of the translation in {target_language}\n"
+    "Text: {improvement_suggestions}\n"
+    "---------------------\n"
+    "Using the improvement suggestions, provide the {target_language} translation for the text in {source_language}.\n"
+    "Do not provide any explanations or any other text apart from the translation."
+)
 
 ENV_KEY__LLM_PROVIDER = "LLM_PROVIDER"
 DEFAULT_VALUE__LLM_PROVIDER = "Ollama"
