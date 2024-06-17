@@ -72,6 +72,17 @@ PROMPT__TRANSLATE_SIMPLE = (
     "{target_language}:"
 )
 
+PROMPT__TRANSLATE_REACT = (
+    "This is a {source_language} to {target_language} translation task.\n"
+    "The text in the {source_language} may contain idiomatic expressions. You must output idiomatic equivalents for such expressions in the {target_language}.\n"
+    "Please provide the {target_language} translation for the following text. Do not provide any explanations or any other text apart from the translation.\n"
+    "In the process of translating the original text, extract knowledge graph triplets to generate a representation of concepts in the text.\n"
+    "Then, assess the quality of the translation by comparing it with the knowledge graph triplets extracted from the original text to see if the concepts have been exhaustively represented.\n"
+    "Finally, improve the translation using the improvement suggestions from the assessment. Output this final translation.\n"
+    "{source_language}: {source_text}\n"
+    "{target_language}:"
+)
+
 # Prompt template from https://github.com/run-llama/llama_index/blob/f17513961505c43391851b364fba0494ee329496/llama-index-core/llama_index/core/prompts/default_prompts.py#L314
 PROMPT__KG_EXTRACT = (
     "Some source text is provided below. Given that text, extract up to {max_knowledge_triplets} "

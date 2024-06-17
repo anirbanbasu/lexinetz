@@ -243,10 +243,10 @@ def translate(callback_args: Any = None):
             target_language=rc_language__translate_to.value,
         )
         # translation_response = translator.translate(rc_text__translate_input.value)
-        translation_response = translator.reflective_translate(
+        translation_response = translator.agentic_translate(
             rc_text__translate_input.value
         )
-        rc_text__translated.value = [response.text for response in translation_response]
+        rc_text__translated.value = [translation_response]
         rc_text__translated_label.value = f"Translation using {rc_settings__llm_provider.value}: {rc_global__llm.value.metadata.model_name}"
         show_status_message(
             message="Translation completed.", colour=constants.COLOUR__SUCCESS
