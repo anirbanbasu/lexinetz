@@ -1,4 +1,5 @@
 pytest
+gradio
 solara
 llama-index-core
 llama-index-llms-llamafile
