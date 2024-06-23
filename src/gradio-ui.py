@@ -167,10 +167,12 @@ class GradioUI:
 
     def construct_ui(self):
         """Construct the UI for the app."""
-        with gr.Blocks(css=".column-form .wrap {flex-direction: column;}") as app:
+        with gr.Blocks(
+            css=".column-form .wrap {flex-direction: column;} footer {visibility: hidden}"
+        ) as app:
             with gr.Row():
                 with gr.Column(visible=False, scale=1) as sidebar_left:
-                    gr.Markdown("## Settings")
+                    gr.Markdown("### Settings")
                     with gr.Group():
                         choice_llm_provider = gr.Dropdown(
                             choices=constants.LLM_PROVIDERS__SUPPORTED,
@@ -332,28 +334,28 @@ class GradioUI:
 
                     rc_local__sidebar_state = gr.State(False)
                 with gr.Column(scale=3):
-                    gr.Markdown(
-                        f"""
-                                # {constants.PROJECT__NAME}
-                                _{constants.PROJECT__HEADLINE}_"""
-                    )
+                    with gr.Row(equal_height=True):
+                        with gr.Column(scale=11):
+                            gr.Markdown(
+                                f"""
+                                        # {constants.PROJECT__NAME}
+                                        _{constants.PROJECT__HEADLINE}_"""
+                            )
+                        with gr.Column(scale=1):
+                            btn_toggle_sidebar = gr.Button(
+                                "⚙️",
+                                size="sm",
+                                scale=1,
+                            )
 
-                    btn_toggle_sidebar = gr.Button("Toggle Sidebar")
-
-                    @btn_toggle_sidebar.click(
-                        inputs=[rc_local__sidebar_state],
-                        outputs=[sidebar_left, rc_local__sidebar_state],
-                        api_name=False,
-                    )
-                    def toggle_sidebar(state):
-                        state = not state
-                        return gr.update(visible=state), state
-
-                    # btn_toggle_sidebar.click(
-                    #     self.toggle_sidebar,
-                    #     [rc_local__sidebar_state],
-                    #     [sidebar_left, rc_local__sidebar_state],
-                    # )
+                            @btn_toggle_sidebar.click(
+                                inputs=[rc_local__sidebar_state],
+                                outputs=[sidebar_left, rc_local__sidebar_state],
+                                api_name=False,
+                            )
+                            def toggle_sidebar(state):
+                                state = not state
+                                return gr.update(visible=state), state
 
                     with gr.Row(equal_height=True):
                         choice_source_lang = gr.Dropdown(
