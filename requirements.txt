@@ -415,7 +415,7 @@ sqlalchemy==2.0.41
     # via llama-index-core
 stack-data==0.6.3
     # via ipython
-starlette==0.46.2
+starlette==0.47.2
     # via
     #   fastapi
     #   gradio
