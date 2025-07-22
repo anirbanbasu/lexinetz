@@ -33,13 +33,13 @@ attrs==25.3.0
     #   referencing
 audioop-lts==0.2.1 ; python_full_version >= '3.13'
     # via gradio
-banks==2.1.3
+banks==2.2.0
     # via llama-index-core
 brotli==1.1.0
     # via gradio
 cachetools==6.1.0
     # via solara-ui
-certifi==2025.7.9
+certifi==2025.7.14
     # via
     #   httpcore
     #   httpx
@@ -72,7 +72,7 @@ comm==0.2.2
     #   ipywidgets
 dataclasses-json==0.6.7
     # via llama-index-core
-debugpy==1.8.14
+debugpy==1.8.15
     # via ipykernel
 decorator==5.2.1
     # via ipython
@@ -83,7 +83,7 @@ deprecated==1.2.18
     #   llama-index-instrumentation
 dirtyjson==1.0.8
     # via llama-index-core
-distlib==0.3.9
+distlib==0.4.0
     # via virtualenv
 distro==1.9.0
     # via openai
@@ -91,7 +91,7 @@ executing==2.2.0
     # via
     #   icecream
     #   stack-data
-fastapi==0.116.0
+fastapi==0.116.1
     # via gradio
 fastavro==1.11.1
     # via cohere
@@ -110,14 +110,14 @@ frozenlist==1.7.0
     # via
     #   aiohttp
     #   aiosignal
-fsspec==2025.5.1
+fsspec==2025.7.0
     # via
     #   gradio-client
     #   huggingface-hub
     #   llama-index-core
-gradio==5.36.2
+gradio==5.38.0
     # via lexinetz
-gradio-client==1.10.4
+gradio-client==1.11.0
     # via gradio
 greenlet==3.2.3
     # via sqlalchemy
@@ -144,7 +144,7 @@ httpx==0.28.1
     #   safehttpx
 httpx-sse==0.4.0
     # via cohere
-huggingface-hub==0.33.2
+huggingface-hub==0.33.4
     # via
     #   gradio
     #   gradio-client
@@ -160,7 +160,7 @@ idna==3.10
     #   httpx
     #   requests
     #   yarl
-ipykernel==6.29.5
+ipykernel==6.30.0
     # via solara-server
 ipython==9.4.0
     # via
@@ -190,7 +190,7 @@ jiter==0.10.0
     # via openai
 joblib==1.5.1
     # via nltk
-jsonschema==4.24.0
+jsonschema==4.25.0
     # via nbformat
 jsonschema-specifications==2025.4.1
     # via jsonschema
@@ -205,14 +205,14 @@ jupyter-core==5.8.1
     #   nbformat
 jupyterlab-widgets==3.0.15
     # via ipywidgets
-llama-index-core==0.12.48
+llama-index-core==0.12.51
     # via
     #   lexinetz
     #   llama-index-llms-cohere
     #   llama-index-llms-llamafile
     #   llama-index-llms-ollama
     #   llama-index-llms-openai
-llama-index-instrumentation==0.2.0
+llama-index-instrumentation==0.3.0
     # via llama-index-workflows
 llama-index-llms-cohere==0.5.0
     # via lexinetz
@@ -269,9 +269,9 @@ numpy==2.3.1
     #   solara-ui
 ollama==0.5.1
     # via llama-index-llms-ollama
-openai==1.95.0
+openai==1.97.0
     # via llama-index-llms-openai
-orjson==3.10.18
+orjson==3.11.0
     # via gradio
 packaging==25.0
     # via
@@ -295,6 +295,7 @@ platformdirs==4.3.8
     # via
     #   banks
     #   jupyter-core
+    #   llama-index-core
     #   virtualenv
 pre-commit==4.2.0
 prompt-toolkit==3.0.51
@@ -347,7 +348,7 @@ python-multipart==0.0.20
     # via gradio
 pytz==2025.2
     # via pandas
-pywin32==310 ; platform_python_implementation != 'PyPy' and sys_platform == 'win32'
+pywin32==311 ; platform_python_implementation != 'PyPy' and sys_platform == 'win32'
     # via jupyter-core
 pyyaml==6.0.2
     # via
@@ -387,7 +388,7 @@ rpds-py==0.26.0
     # via
     #   jsonschema
     #   referencing
-ruff==0.12.2 ; sys_platform != 'emscripten'
+ruff==0.12.4 ; sys_platform != 'emscripten'
     # via gradio
 safehttpx==0.1.6
     # via gradio
@@ -403,11 +404,11 @@ sniffio==1.3.1
     # via
     #   anyio
     #   openai
-solara==1.50.0
+solara==1.50.1
     # via lexinetz
-solara-server==1.50.0
+solara-server==1.50.1
     # via solara
-solara-ui==1.50.0
+solara-ui==1.50.1
     # via
     #   solara
     #   solara-server
@@ -415,7 +416,7 @@ sqlalchemy==2.0.41
     # via llama-index-core
 stack-data==0.6.3
     # via ipython
-starlette==0.46.2
+starlette==0.47.2
     # via
     #   fastapi
     #   gradio
@@ -470,6 +471,7 @@ typing-extensions==4.14.1
     #   referencing
     #   rich-click
     #   sqlalchemy
+    #   starlette
     #   typer
     #   typing-inspect
     #   typing-inspection
@@ -490,7 +492,7 @@ uvicorn==0.35.0
     # via
     #   gradio
     #   solara-server
-virtualenv==20.31.2
+virtualenv==20.32.0
     # via pre-commit
 watchdog==6.0.0
     # via solara-server
