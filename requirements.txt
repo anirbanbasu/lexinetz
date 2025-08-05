@@ -144,7 +144,7 @@ httpx==0.28.1
     #   safehttpx
 httpx-sse==0.4.0
     # via cohere
-huggingface-hub==0.33.4
+huggingface-hub==0.34.3
     # via
     #   gradio
     #   gradio-client
