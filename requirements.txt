@@ -93,7 +93,7 @@ executing==2.2.0
     #   stack-data
 fastapi==0.116.1
     # via gradio
-fastavro==1.11.1
+fastavro==1.12.0
     # via cohere
 fastjsonschema==2.21.1
     # via nbformat
