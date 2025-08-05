@@ -235,7 +235,7 @@ markupsafe==3.0.2
     # via
     #   gradio
     #   jinja2
-marshmallow==3.26.1
+marshmallow==4.0.0
     # via dataclasses-json
 matplotlib-inline==0.1.7
     # via
