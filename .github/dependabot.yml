@@ -10,3 +10,5 @@ updates:
     schedule:
       # A weekly schedule is reasonable.
       interval: "weekly"
+    # Temporarily disable these updates.
+    open-pull-requests-limit: 0
